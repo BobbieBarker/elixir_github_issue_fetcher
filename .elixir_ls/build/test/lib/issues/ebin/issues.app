@@ -1,6 +1,10 @@
 {application,issues,
-             [{applications,[kernel,stdlib,elixir,logger]},
+             [{applications,[kernel,stdlib,elixir,logger,poison,sweet_xml,
+                             httpoison]},
               {description,"issues"},
-              {modules,['Elixir.Issues','Elixir.Issues.CLI']},
+              {modules,['Elixir.Issues','Elixir.Issues.CLI',
+                        'Elixir.Issues.GithubIssues',
+                        'Elixir.Issues.TableFormatter',
+                        'Elixir.Issues.Weather']},
               {registered,[]},
               {vsn,"0.1.0"}]}.

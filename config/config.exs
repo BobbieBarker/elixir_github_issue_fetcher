@@ -28,3 +28,9 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env()}.exs"
+config :fetcher,
+  github_url: "https://api.github.com",
+  noaa_url: "https://w1.weather.gov/xml/current_obs"
+# set up environmental configuration
+# set the dev environmental file to be in the git ignore
+# set the github user agent creds as a config value!

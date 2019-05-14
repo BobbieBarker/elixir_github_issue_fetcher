@@ -1,16 +1,30 @@
-defmodule Issues.GithubIssues do
-  @user_agent [{"User-agent", "Elixir"}] #look this crap up.
-
-  def fetch(user, project) do
+defmodule Fetcher.GithubIssues do
+  @github_url Application.get_env(:fetcher, :github_url)
+  def fetch(user_agent, user, project) do
     issues_url(user, project)
-    |> HTTPoison.get(@user_agent)
+    |> HTTPoison.get([{"User-agent", user_agent}])
     |> handle_response
+    |> error_catcher
   end
 
   def issues_url(user, project) do
-    "https://api.github.com/repos/#{user}/#{project}/issues"
+    "#{@github_url}/repos/#{user}/#{project}/issues"
   end
 
-  def handle_response({:ok, %{status_code: 200, body: body}}) do {:ok, body}
-  def handle_response({_, %{status_code: _, body: body}}) do {:error, body}
+  def handle_response({_, %{status_code: status_code, body: body}}) do
+    {
+      status_code |> check_for_error(),
+      body |> Poison.Parser.parse!(%{})
+    }
+  end
+
+  defp check_for_error(200), do: :ok
+  defp check_for_error(_), do: :error
+
+
+  defp error_catcher({:ok, body}), do: body
+  defp error_catcher({:error, error}) do
+    IO.puts "Error Fetching from github: #{error["message"]}"
+    System.halt(2)
+  end
 end

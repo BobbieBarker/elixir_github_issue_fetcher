@@ -1,0 +1,9 @@
+{application,fetcher,
+             [{applications,[kernel,stdlib,elixir,logger,poison,sweet_xml,
+                             httpoison]},
+              {description,"fetcher"},
+              {modules,['Elixir.Fetcher.CLI','Elixir.Fetcher.GithubIssues',
+                        'Elixir.Fetcher.TableFormatter',
+                        'Elixir.Fetcher.Weather']},
+              {registered,[]},
+              {vsn,"0.1.0"}]}.
